@@ -1,0 +1,12 @@
+messages:
+  no-permission: "&cYou don't have permission."
+  player-not-found: "&cPlayer not found."
+  language-selected: "&aSelected Language: English"
+  language-not-found:
+    - "&cLanguage not found."
+    - "&eAvailable languages:"
+    - " "
+    - "&aPT - Português"
+    - "&aEN - English"
+    - " "
+    - "&aUse: /language <language>"

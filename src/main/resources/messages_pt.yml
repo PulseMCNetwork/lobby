@@ -1,0 +1,12 @@
+messages:
+  no-permission: "&cVocê não tem permissão."
+  player-not-found: "&cJogador não encontrado."
+  language-selected: "&aIdioma selecionado: Português"
+  language-not-found:
+    - "&cIdioma não encontrado."
+    - "&eIdiomas disponíveis:"
+    - " "
+    - "&aPT - Português"
+    - "&aEN - English"
+    - " "
+    - "&aUse: /language <linguagem>"
