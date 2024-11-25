@@ -2,6 +2,7 @@ package br.com.pulsemc.minecraft.lobby;
 
 import br.com.pulsemc.minecraft.lobby.api.providers.LanguageAPIProvider;
 import br.com.pulsemc.minecraft.lobby.commands.language.LanguageCommand;
+import br.com.pulsemc.minecraft.lobby.commands.lobby.SetLobbyCommand;
 import br.com.pulsemc.minecraft.lobby.configurations.Configuration;
 import br.com.pulsemc.minecraft.lobby.configurations.MessagesConfiguration;
 import br.com.pulsemc.minecraft.lobby.database.MySQLManager;
@@ -136,6 +137,7 @@ public final class Main extends JavaPlugin {
         debug("&eRegistrando comandos...", false);
 
         getCommand("language").setExecutor(new LanguageCommand(this));
+        getCommand("setlobby").setExecutor(new SetLobbyCommand(this));
 
         debug("&aComandos registrados em " + stopwatch.stop() + "!", false);
 
