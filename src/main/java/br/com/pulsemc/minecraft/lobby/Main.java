@@ -1,11 +1,14 @@
 package br.com.pulsemc.minecraft.lobby;
 
 import br.com.pulsemc.minecraft.lobby.api.providers.LanguageAPIProvider;
+import br.com.pulsemc.minecraft.lobby.commands.language.LanguageCommand;
 import br.com.pulsemc.minecraft.lobby.configurations.Configuration;
 import br.com.pulsemc.minecraft.lobby.configurations.MessagesConfiguration;
 import br.com.pulsemc.minecraft.lobby.database.MySQLManager;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 import br.com.pulsemc.minecraft.lobby.systems.language.listener.PlayerLanguageEvents;
+import br.com.pulsemc.minecraft.lobby.systems.lobby.listener.LobbyListener;
+import br.com.pulsemc.minecraft.lobby.systems.lobby.manager.LobbyManager;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -23,7 +26,8 @@ public final class Main extends JavaPlugin {
     private MySQLManager mySQLManager;
 
     // Systems
-    private LanguageRegistry languageRegistry; // Depends: MessagesConfiguration, MySQLManager
+    private LanguageRegistry languageRegistry; // Depends: Configuration, MessagesConfiguration, MySQLManager
+    private LobbyManager lobbyManager; // Depends: Configuration
 
     @Override
     public void onEnable() {
@@ -33,9 +37,13 @@ public final class Main extends JavaPlugin {
 
         loadConfiguration();
         setupDatabase();
+
         setupMessages();
+        loadManagers();
 
         loadListeners();
+        loadCommands();
+
         initializeAPIs();
     }
 
@@ -96,6 +104,17 @@ public final class Main extends JavaPlugin {
 
     }
 
+    private void loadManagers() {
+
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        debug(" ", false);
+        debug("&eCarregando gerenciadores...", false);
+
+        lobbyManager = new LobbyManager(this);
+
+        debug("&aGerenciadores carregados em " + stopwatch.stop() + "!", false);
+    }
+
     private void loadListeners() {
 
         Stopwatch stopwatch = Stopwatch.createStarted();
@@ -103,10 +122,23 @@ public final class Main extends JavaPlugin {
         debug("&eRegistrando eventos...", false);
 
         registerListeners(
-                new PlayerLanguageEvents(this)
+                new PlayerLanguageEvents(this),
+                new LobbyListener(this)
         );
 
         debug("&aEventos registrados em " + stopwatch.stop() + "!", false);
+    }
+
+    private void loadCommands() {
+
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        debug(" ", false);
+        debug("&eRegistrando comandos...", false);
+
+        getCommand("language").setExecutor(new LanguageCommand(this));
+
+        debug("&aComandos registrados em " + stopwatch.stop() + "!", false);
+
     }
 
     private void initializeAPIs() {
