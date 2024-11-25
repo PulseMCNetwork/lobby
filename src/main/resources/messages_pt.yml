@@ -10,3 +10,10 @@ messages:
     - "&aEN - English"
     - " "
     - "&aUse: /language <linguagem>"
+  scoreboard-title: "&5&lPULSEMC"
+  scoreboard-lines:
+    - " "
+    - "&fTag: &7&lEM-BREVE"
+    - " "
+    - "&fJogadores: &5%bungee_total% online"
+    - "&5pulsemc.com.br"

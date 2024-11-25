@@ -10,6 +10,8 @@ import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 import br.com.pulsemc.minecraft.lobby.systems.language.listener.PlayerLanguageEvents;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.listener.LobbyListener;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.manager.LobbyManager;
+import br.com.pulsemc.minecraft.lobby.systems.scoreboard.listener.ScoreboardListener;
+import br.com.pulsemc.minecraft.lobby.systems.scoreboard.manager.ScoreboardManager;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -29,6 +31,7 @@ public final class Main extends JavaPlugin {
     // Systems
     private LanguageRegistry languageRegistry; // Depends: Configuration, MessagesConfiguration, MySQLManager
     private LobbyManager lobbyManager; // Depends: Configuration
+    private ScoreboardManager scoreboardManager; // Depends: LanguageRegistry
 
     @Override
     public void onEnable() {
@@ -112,6 +115,7 @@ public final class Main extends JavaPlugin {
         debug("&eCarregando gerenciadores...", false);
 
         lobbyManager = new LobbyManager(this);
+        scoreboardManager = new ScoreboardManager(this);
 
         debug("&aGerenciadores carregados em " + stopwatch.stop() + "!", false);
     }
@@ -124,7 +128,8 @@ public final class Main extends JavaPlugin {
 
         registerListeners(
                 new PlayerLanguageEvents(this),
-                new LobbyListener(this)
+                new LobbyListener(this),
+                new ScoreboardListener(this)
         );
 
         debug("&aEventos registrados em " + stopwatch.stop() + "!", false);
