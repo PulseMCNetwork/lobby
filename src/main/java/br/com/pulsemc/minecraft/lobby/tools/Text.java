@@ -3,9 +3,11 @@ package br.com.pulsemc.minecraft.lobby.tools;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+@author: syncwrld
+@website: https://github.com/syncwrld
+ */
 public class Text {
-    public Text() {
-    }
 
     public static String color(String text) {
         return text.replaceAll("&", "§");
