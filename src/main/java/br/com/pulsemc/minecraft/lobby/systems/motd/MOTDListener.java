@@ -26,7 +26,7 @@ public class MOTDListener implements Listener {
         }
 
         String motd = motdLore.stream()
-                .map(this::centerText)
+                .map(line -> ChatColor.translateAlternateColorCodes('&', centerText(line)))
                 .reduce((line1, line2) -> line1 + "\n" + line2)
                 .orElse(ChatColor.RED + "MOTD inválido!");
 

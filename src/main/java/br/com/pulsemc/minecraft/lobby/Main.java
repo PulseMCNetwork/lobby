@@ -11,6 +11,7 @@ import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 import br.com.pulsemc.minecraft.lobby.systems.language.listener.PlayerLanguageEvents;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.listener.LobbyListener;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.manager.LobbyManager;
+import br.com.pulsemc.minecraft.lobby.systems.motd.MOTDListener;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.listener.ScoreboardListener;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.manager.ScoreboardManager;
 import br.com.pulsemc.minecraft.lobby.systems.tab.listener.TabListener;
@@ -139,7 +140,8 @@ public final class Main extends JavaPlugin {
                 new PlayerLanguageEvents(this),
                 new LobbyListener(this),
                 new ScoreboardListener(this),
-                new TabListener(this)
+                new TabListener(this),
+                new MOTDListener(this)
         );
 
         debug("&aEventos registrados em " + stopwatch.stop() + "!", false);
