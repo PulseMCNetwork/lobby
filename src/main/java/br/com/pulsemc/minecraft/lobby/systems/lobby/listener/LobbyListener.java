@@ -1,12 +1,16 @@
 package br.com.pulsemc.minecraft.lobby.systems.lobby.listener;
 
 import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.commands.lobby.BuildCommand;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class LobbyListener implements Listener {
@@ -17,6 +21,7 @@ public class LobbyListener implements Listener {
         this.plugin = plugin;
     }
 
+    // JOGADOR
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
 
@@ -37,9 +42,30 @@ public class LobbyListener implements Listener {
     }
 
     @EventHandler
-    public void onMobSpawn(CreatureSpawnEvent event) {
-        event.setCancelled(true);
+    public void onPlayerDamage(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player)) return;
 
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent e) {
+        if (!BuildCommand.playerCanBuild(e.getPlayer())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (!BuildCommand.playerCanBuild(e.getPlayer())) {
+            e.setCancelled(true);
+        }
+    }
+
+    // SERVIDOR
+    @EventHandler
+    public void onMobSpawn(CreatureSpawnEvent e) {
+        e.setCancelled(true);
     }
 
     @EventHandler

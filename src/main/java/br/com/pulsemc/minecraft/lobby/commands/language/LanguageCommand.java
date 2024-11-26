@@ -24,7 +24,7 @@ public class LanguageCommand implements CommandExecutor {
 
         if (!(sender instanceof Player)) {
             sender.sendMessage("§cEste comando só pode ser usado por jogadores.");
-            return true;
+            return false;
         }
 
         Player player = (Player) sender;
