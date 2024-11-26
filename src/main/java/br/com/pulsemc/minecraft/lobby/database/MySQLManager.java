@@ -18,8 +18,12 @@ public class MySQLManager {
         connect();
     }
 
-    private void connect() {
+    public void connect() {
         try {
+            if (connection != null && !connection.isClosed()) {
+                return;
+            }
+
             String host = plugin.getConfiguration().getConfig().getString("mysql.host");
             int port = plugin.getConfiguration().getConfig().getInt("mysql.port");
             String database = plugin.getConfiguration().getConfig().getString("mysql.database");
@@ -35,6 +39,19 @@ public class MySQLManager {
             plugin.debug("&cErro ao conectar ao banco de dados MySQL: " + e.getMessage(), false);
             e.printStackTrace();
         }
+    }
+
+    public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                plugin.debug("&cConexão com MySQL fechada, tentando reconectar...", false);
+                connect();
+            }
+        } catch (SQLException e) {
+            plugin.debug("&cErro ao verificar conexão com MySQL: " + e.getMessage(), false);
+            e.printStackTrace();
+        }
+        return connection;
     }
 
     public void disconnect() {

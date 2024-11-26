@@ -5,3 +5,5 @@ mysql:
   username: "root"
   password: "password"
   options: "?useSSL=false&autoReconnect=true"
+
+debug: true

@@ -17,3 +17,13 @@ messages:
     - " "
     - "&fPlayers: &5%bungee_total% online"
     - "&5pulsemc.com.br"
+  tab-title:
+    - " "
+    - "&5&lPulseMC"
+    - " "
+  tab-footer:
+    - " "
+    - "&fDiscord: &5bit.ly/DiscordPulseMC"
+    - "&fShop: &5pulsemc.com.br"
+    - "&5pulsemc.com.br"
+    - " "

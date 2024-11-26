@@ -10,7 +10,9 @@ public enum LanguagePath {
     LANGUAGE_SELECTED("messages.language-selected"),
     LANGUAGE_NOT_FOUND("messages.language-not-found"),
     SCOREBOARD_TITLE("messages.scoreboard-title"),
-    SCOREBOARD_LINES("messages.scoreboard-lines");
+    SCOREBOARD_LINES("messages.scoreboard-lines"),
+    TAB_HEADER("messages.tab-title"),
+    TAB_FOOTER("messages.tab-footer");
 
     private final String path;
 

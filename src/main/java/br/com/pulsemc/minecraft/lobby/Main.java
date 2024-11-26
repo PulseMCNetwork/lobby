@@ -12,6 +12,8 @@ import br.com.pulsemc.minecraft.lobby.systems.lobby.listener.LobbyListener;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.manager.LobbyManager;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.listener.ScoreboardListener;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.manager.ScoreboardManager;
+import br.com.pulsemc.minecraft.lobby.systems.tab.listener.TabListener;
+import br.com.pulsemc.minecraft.lobby.systems.tab.manager.TabManager;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -32,12 +34,15 @@ public final class Main extends JavaPlugin {
     private LanguageRegistry languageRegistry; // Depends: Configuration, MessagesConfiguration, MySQLManager
     private LobbyManager lobbyManager; // Depends: Configuration
     private ScoreboardManager scoreboardManager; // Depends: LanguageRegistry
+    private TabManager tabManager; // Depends: LanguageRegistry e TAB
 
     @Override
     public void onEnable() {
 
         debug(" ", false);
         Stopwatch stopwatch = Stopwatch.createStarted();
+
+        saveDefaultConfig();
 
         loadConfiguration();
         setupDatabase();
@@ -49,6 +54,8 @@ public final class Main extends JavaPlugin {
         loadCommands();
 
         initializeAPIs();
+
+        debug("&2&lLobby-plugin iniciado em " + stopwatch.stop() + "!", false);
     }
 
     @Override
@@ -116,6 +123,7 @@ public final class Main extends JavaPlugin {
 
         lobbyManager = new LobbyManager(this);
         scoreboardManager = new ScoreboardManager(this);
+        tabManager = new TabManager(this);
 
         debug("&aGerenciadores carregados em " + stopwatch.stop() + "!", false);
     }
@@ -129,7 +137,8 @@ public final class Main extends JavaPlugin {
         registerListeners(
                 new PlayerLanguageEvents(this),
                 new LobbyListener(this),
-                new ScoreboardListener(this)
+                new ScoreboardListener(this),
+                new TabListener(this)
         );
 
         debug("&aEventos registrados em " + stopwatch.stop() + "!", false);

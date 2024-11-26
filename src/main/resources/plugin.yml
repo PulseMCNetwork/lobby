@@ -1,5 +1,6 @@
 name: Lobby
 author: tadeu
+softdepend: [ TAB, PlaceholderAPI]
 version: '${project.version}'
 main: br.com.pulsemc.minecraft.lobby.Main
 commands:

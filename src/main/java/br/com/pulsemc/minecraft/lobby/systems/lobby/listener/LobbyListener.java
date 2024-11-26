@@ -5,6 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class LobbyListener implements Listener {
@@ -32,5 +34,16 @@ public class LobbyListener implements Listener {
         }
 
         plugin.getLobbyManager().teleportToLobby(player);
+    }
+
+    @EventHandler
+    public void onMobSpawn(CreatureSpawnEvent event) {
+        event.setCancelled(true);
+
+    }
+
+    @EventHandler
+    public void onLeavesDecay(LeavesDecayEvent e) {
+        e.setCancelled(true);
     }
 }

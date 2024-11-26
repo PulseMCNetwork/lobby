@@ -29,13 +29,12 @@ public class LanguageRegistry implements LanguageAPI {
     }
 
     private void createTable() {
-        try (Connection connection = mySQLManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "CREATE TABLE IF NOT EXISTS player_languages (" +
-                             "uuid VARCHAR(36) PRIMARY KEY, " +
-                             "language VARCHAR(10) NOT NULL" +
-                             ")"
-             )) {
+        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
+                "CREATE TABLE IF NOT EXISTS player_languages (" +
+                        "uuid VARCHAR(36) PRIMARY KEY, " +
+                        "language VARCHAR(10) NOT NULL" +
+                        ")"
+        )) {
             statement.executeUpdate();
         } catch (SQLException e) {
             plugin.debug("&cErro ao criar tabela de idiomas no MySQL: " + e.getMessage(), false);
@@ -55,14 +54,11 @@ public class LanguageRegistry implements LanguageAPI {
             return;
         }
 
-        // Atualiza o cache
         playerLanguageCache.put(playerUUID, locale);
 
-        // Atualiza no banco de dados
-        try (Connection connection = mySQLManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "REPLACE INTO player_languages (uuid, language) VALUES (?, ?)"
-             )) {
+        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
+                "REPLACE INTO player_languages (uuid, language) VALUES (?, ?)"
+        )) {
             statement.setString(1, playerUUID.toString());
             statement.setString(2, locale.name());
             statement.executeUpdate();
@@ -81,10 +77,9 @@ public class LanguageRegistry implements LanguageAPI {
             return playerLanguageCache.get(playerUUID);
         }
 
-        try (Connection connection = mySQLManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "SELECT language FROM player_languages WHERE uuid = ?"
-             )) {
+        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
+                "SELECT language FROM player_languages WHERE uuid = ?"
+        )) {
             statement.setString(1, playerUUID.toString());
             ResultSet resultSet = statement.executeQuery();
 
@@ -99,7 +94,7 @@ public class LanguageRegistry implements LanguageAPI {
             plugin.debug("&cErro ao carregar idioma do MySQL: " + e.getMessage(), false);
         }
 
-        return null; // Idioma padrão
+        return null;
     }
 
     public String getMessage(Player player, LanguagePath path) {
@@ -113,7 +108,7 @@ public class LanguageRegistry implements LanguageAPI {
     }
 
     public void clearCache() {
-        playerLanguageCache.clear(); // Remove todas as referências de cache
-        plugin.debug("Cache de linguagens limpo com sucesso.", false);
+        playerLanguageCache.clear();
+        plugin.debug("Cache de linguagens limpo com sucesso.", true);
     }
 }

@@ -1,6 +1,7 @@
 package br.com.pulsemc.minecraft.lobby.systems.scoreboard.listener;
 
 import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEvent;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,5 +35,17 @@ public class ScoreboardListener implements Listener {
         Player player = e.getPlayer();
 
         plugin.getScoreboardManager().removeScoreboard(player);
+    }
+
+    @EventHandler
+    public void onPlayerLanguageChange(PlayerLanguageChangeEvent e) {
+        Player player = e.getPlayer();
+
+        plugin.getScoreboardManager().removeScoreboard(player);
+
+        String title = plugin.getLanguageRegistry().getMessage(player, LanguagePath.SCOREBOARD_TITLE);
+        List<String> lines = plugin.getLanguageRegistry().getListMessage(player, LanguagePath.SCOREBOARD_LINES);
+
+        plugin.getScoreboardManager().createScoreboard(player, title, lines);
     }
 }
