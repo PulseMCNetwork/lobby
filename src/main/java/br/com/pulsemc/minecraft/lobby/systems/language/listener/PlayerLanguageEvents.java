@@ -22,6 +22,7 @@ public class PlayerLanguageEvents implements Listener {
 
         if (plugin.getLanguageRegistry().getPlayerLanguage(player) == null) {
             plugin.getLanguageRegistry().setPlayerLanguage(player, LanguageLocale.PT_BR);
+            plugin.debug("Nenhuma linguagem para " + player.getName() + ", linguagem padrão selecionada", true);
         }
     }
 }

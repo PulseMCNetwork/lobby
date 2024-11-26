@@ -6,10 +6,21 @@ public enum LanguageLocale {
     EN_US;
 
     public static LanguageLocale fromString(String locale) {
-        try {
-            return LanguageLocale.valueOf(locale.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        if (locale == null) {
             return null;
+        }
+
+        switch (locale.toUpperCase()) {
+            case "PT":
+                return PT_BR;
+            case "EN":
+                return EN_US;
+            default:
+                try {
+                    return LanguageLocale.valueOf(locale.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
         }
     }
 }

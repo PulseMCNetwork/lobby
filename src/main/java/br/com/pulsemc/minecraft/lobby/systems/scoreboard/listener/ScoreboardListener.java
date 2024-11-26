@@ -3,6 +3,7 @@ package br.com.pulsemc.minecraft.lobby.systems.scoreboard.listener;
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEvent;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,9 +44,12 @@ public class ScoreboardListener implements Listener {
 
         plugin.getScoreboardManager().removeScoreboard(player);
 
-        String title = plugin.getLanguageRegistry().getMessage(player, LanguagePath.SCOREBOARD_TITLE);
-        List<String> lines = plugin.getLanguageRegistry().getListMessage(player, LanguagePath.SCOREBOARD_LINES);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            String title = plugin.getLanguageRegistry().getMessage(player, LanguagePath.SCOREBOARD_TITLE);
+            List<String> lines = plugin.getLanguageRegistry().getListMessage(player, LanguagePath.SCOREBOARD_LINES);
 
-        plugin.getScoreboardManager().createScoreboard(player, title, lines);
+            plugin.getScoreboardManager().createScoreboard(player, title, lines);
+            plugin.debug("TabListener.java - Nova scoreboard criada", true);
+        }, 10L);
     }
 }

@@ -2,6 +2,7 @@ package br.com.pulsemc.minecraft.lobby.systems.tab.listener;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,6 +40,9 @@ public class TabListener implements Listener {
 
         plugin.getTabManager().resetTab(player);
 
-        plugin.getTabManager().createTab(player);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            plugin.getTabManager().createTab(player);
+            plugin.debug("TabListener.java - Novo tab criado", true);
+        }, 10L);
     }
 }

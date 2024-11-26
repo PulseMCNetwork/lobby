@@ -47,7 +47,7 @@ public class LanguageCommand implements CommandExecutor {
             if (locale == null) {
                 // Idioma inválido, mostra mensagem de erro
                 List<String> messages = LanguageAPIProvider.get()
-                        .getListMessage(player, LanguagePath.LANGUAGE_NOT_FOUND);
+                        .getListMessage(player, LanguagePath.LANGUAGES_AVAILABLE);
                 for (String message : messages) {
                     player.sendMessage(message);
                 }
