@@ -7,3 +7,7 @@ mysql:
   options: "?useSSL=false&autoReconnect=true"
 
 debug: true
+
+motd:
+  - "&5&lPulseMC"
+  - "&fFaremos História em &6&l2025&f!"

@@ -49,7 +49,7 @@ public class ScoreboardListener implements Listener {
             List<String> lines = plugin.getLanguageRegistry().getListMessage(player, LanguagePath.SCOREBOARD_LINES);
 
             plugin.getScoreboardManager().createScoreboard(player, title, lines);
-            plugin.debug("TabListener.java - Nova scoreboard criada", true);
+            plugin.debug("ScoreboardListener.java - Nova scoreboard criada", true);
         }, 10L);
     }
 }

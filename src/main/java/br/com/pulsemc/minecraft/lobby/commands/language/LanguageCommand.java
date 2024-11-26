@@ -7,11 +7,15 @@ import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class LanguageCommand implements CommandExecutor {
+public class LanguageCommand implements CommandExecutor, TabCompleter {
 
     private final Main plugin;
 
@@ -69,5 +73,28 @@ public class LanguageCommand implements CommandExecutor {
         // Argumentos inválidos
         player.sendMessage("§cUse: /language <iso>");
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (!(sender instanceof Player)) return Collections.emptyList();
+
+        if (args.length == 1) {
+            String input = args[0].toLowerCase();
+            return getAvailableLocales().stream()
+                    .filter(locale -> locale.toLowerCase().startsWith(input))
+                    .collect(Collectors.toList());
+        }
+
+        return new ArrayList<>();
+    }
+
+    private List<String> getAvailableLocales() {
+        List<String> locales = new ArrayList<>();
+        for (LanguageLocale locale : LanguageLocale.values()) {
+            locales.add(locale.name());
+            locales.add(locale.name().split("_")[0]);
+        }
+        return locales;
     }
 }

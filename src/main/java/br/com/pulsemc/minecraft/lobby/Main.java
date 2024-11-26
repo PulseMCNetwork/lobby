@@ -151,7 +151,10 @@ public final class Main extends JavaPlugin {
         debug(" ", false);
         debug("&eRegistrando comandos...", false);
 
-        getCommand("language").setExecutor(new LanguageCommand(this));
+        LanguageCommand languageCommand = new LanguageCommand(this);
+
+        getCommand("language").setExecutor(languageCommand);
+        getCommand("language").setTabCompleter(languageCommand);
         getCommand("setlobby").setExecutor(new SetLobbyCommand(this));
         getCommand("build").setExecutor(new BuildCommand(this));
 
