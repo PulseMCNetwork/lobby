@@ -67,6 +67,24 @@ public class MessagesConfiguration {
         }
     }
 
+    public void addDefaultMessage(LanguageLocale locale, String path, String defaultValue) {
+        FileConfiguration config = getConfigForLocale(locale);
+
+        if (!config.contains(path)) {
+            config.set(path, defaultValue);
+            saveConfigForLocale(locale, config);
+        }
+    }
+
+    private void saveConfigForLocale(LanguageLocale locale, FileConfiguration config) {
+        try {
+            File file = locale == LanguageLocale.PT_BR ? messagesPtFile : messagesEnFile;
+            config.save(file);
+        } catch (Exception e) {
+            plugin.getLogger().severe("Erro ao salvar arquivo de mensagens para " + locale + ": " + e.getMessage());
+        }
+    }
+
     public void reloadMessages() {
         this.messagesPtConfig = YamlConfiguration.loadConfiguration(messagesPtFile);
         this.messagesEnConfig = YamlConfiguration.loadConfiguration(messagesEnFile);

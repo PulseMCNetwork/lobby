@@ -11,3 +11,13 @@ debug: true
 motd:
   - "&5&lPulseMC"
   - "&fFaremos História em &6&l2025&f!"
+
+lobby-itens:
+  # Exemplo
+  compass:
+    # 0-8
+    slot: 0
+    # Se for SKULL_ITEM e data: 3, retorna a cabeça do jogador
+    material: COMPASS
+    data: 0
+    command: dm open minigames

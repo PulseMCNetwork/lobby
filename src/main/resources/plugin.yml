@@ -1,10 +1,12 @@
-name: Lobby
+name: lobby
 author: tadeu
-softdepend: [ TAB, PlaceholderAPI]
+softdepend: [ TAB, PlaceholderAPI, NBTAPI]
 version: '${project.version}'
 main: br.com.pulsemc.minecraft.lobby.Main
 commands:
   language:
     aliases: [idioma, linguagem]
-  setlobby:
+  setLobby:
   build:
+  pulseLobby:
+    aliases: [pLobby]

@@ -2,6 +2,7 @@ package br.com.pulsemc.minecraft.lobby.systems.lobby.listener;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.commands.lobby.BuildCommand;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class LobbyListener implements Listener {
@@ -29,6 +31,10 @@ public class LobbyListener implements Listener {
 
         e.setJoinMessage(null);
 
+        player.setHealth(20);
+        player.getActivePotionEffects().clear();
+
+        // Lobby Teleport
         if (plugin.getLobbyManager().getLobbyLocation() == null) {
 
             if (player.hasPermission("lobby.setup")) {
@@ -39,6 +45,9 @@ public class LobbyListener implements Listener {
         }
 
         plugin.getLobbyManager().teleportToLobby(player);
+
+        // Change Gamemode
+        player.setGameMode(GameMode.ADVENTURE);
     }
 
     @EventHandler
@@ -58,6 +67,13 @@ public class LobbyListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         if (!BuildCommand.playerCanBuild(e.getPlayer())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onFoodLevelChange(FoodLevelChangeEvent e) {
+        if (e.getEntity() instanceof Player) {
             e.setCancelled(true);
         }
     }

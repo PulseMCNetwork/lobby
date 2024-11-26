@@ -1,6 +1,7 @@
 package br.com.pulsemc.minecraft.lobby;
 
 import br.com.pulsemc.minecraft.lobby.api.providers.LanguageAPIProvider;
+import br.com.pulsemc.minecraft.lobby.commands.PulseLobbyCommand;
 import br.com.pulsemc.minecraft.lobby.commands.language.LanguageCommand;
 import br.com.pulsemc.minecraft.lobby.commands.lobby.BuildCommand;
 import br.com.pulsemc.minecraft.lobby.commands.lobby.SetLobbyCommand;
@@ -9,6 +10,9 @@ import br.com.pulsemc.minecraft.lobby.configurations.MessagesConfiguration;
 import br.com.pulsemc.minecraft.lobby.database.MySQLManager;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 import br.com.pulsemc.minecraft.lobby.systems.language.listener.PlayerLanguageEvents;
+import br.com.pulsemc.minecraft.lobby.systems.lobby.items.initializer.ItemInitializer;
+import br.com.pulsemc.minecraft.lobby.systems.lobby.items.listener.LobbyItemListener;
+import br.com.pulsemc.minecraft.lobby.systems.lobby.items.manager.LobbyItemManager;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.listener.LobbyListener;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.manager.LobbyManager;
 import br.com.pulsemc.minecraft.lobby.systems.motd.MOTDListener;
@@ -37,6 +41,7 @@ public final class Main extends JavaPlugin {
     private LobbyManager lobbyManager; // Depends: Configuration
     private ScoreboardManager scoreboardManager; // Depends: LanguageRegistry
     private TabManager tabManager; // Depends: LanguageRegistry e TAB
+    private LobbyItemManager lobbyItemManager; // Depends: LanguageRegistry e NBT API
 
     @Override
     public void onEnable() {
@@ -126,6 +131,8 @@ public final class Main extends JavaPlugin {
         lobbyManager = new LobbyManager(this);
         scoreboardManager = new ScoreboardManager(this);
         tabManager = new TabManager(this);
+        lobbyItemManager = new LobbyItemManager(this);
+        new ItemInitializer(this).initializeDefaultMessages();
 
         debug("&aGerenciadores carregados em " + stopwatch.stop() + "!", false);
     }
@@ -141,7 +148,8 @@ public final class Main extends JavaPlugin {
                 new LobbyListener(this),
                 new ScoreboardListener(this),
                 new TabListener(this),
-                new MOTDListener(this)
+                new MOTDListener(this),
+                new LobbyItemListener(this)
         );
 
         debug("&aEventos registrados em " + stopwatch.stop() + "!", false);
@@ -154,11 +162,14 @@ public final class Main extends JavaPlugin {
         debug("&eRegistrando comandos...", false);
 
         LanguageCommand languageCommand = new LanguageCommand(this);
+        PulseLobbyCommand pulseLobbyCommand = new PulseLobbyCommand(this);
 
         getCommand("language").setExecutor(languageCommand);
         getCommand("language").setTabCompleter(languageCommand);
-        getCommand("setlobby").setExecutor(new SetLobbyCommand(this));
+        getCommand("setLobby").setExecutor(new SetLobbyCommand(this));
         getCommand("build").setExecutor(new BuildCommand(this));
+        getCommand("pulseLobby").setExecutor(pulseLobbyCommand);
+        getCommand("pulseLobby").setTabCompleter(pulseLobbyCommand);
 
         debug("&aComandos registrados em " + stopwatch.stop() + "!", false);
 

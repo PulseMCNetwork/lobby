@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>br.com.pulsemc.minecraft.lobby</groupId>
+  <groupId>br.com.pulsemc.minecraft</groupId>
   <artifactId>Lobby</artifactId>
   <version>0.5</version>
   <packaging>jar</packaging>
 
-  <name>Lobby</name>
+  <name>lobby</name>
 
   <properties>
     <java.version>1.8</java.version>
@@ -69,6 +69,12 @@
           <id>jitpack.io</id>
           <url>https://jitpack.io</url>
       </repository>
+
+      <repository>
+          <id>codemc-repo</id>
+          <url>https://repo.codemc.io/repository/maven-public/</url>
+          <layout>default</layout>
+      </repository>
   </repositories>
 
   <dependencies>
@@ -103,6 +109,13 @@
           <groupId>com.github.NEZNAMY</groupId>
           <artifactId>TAB-API</artifactId>
           <version>5.0.0</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>de.tr7zw</groupId>
+          <artifactId>item-nbt-api-plugin</artifactId>
+          <version>2.14.0</version>
           <scope>provided</scope>
       </dependency>
   </dependencies>
