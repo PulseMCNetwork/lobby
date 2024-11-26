@@ -28,6 +28,8 @@ public class SetLobbyCommand implements CommandExecutor {
         }
 
         plugin.getLobbyManager().setLobbyLocation(player.getLocation());
+
+        plugin.debug("Lobby setado por " + player.getName(), true);
         player.sendMessage("§aLobby setado na sua atual posição!");
         return true;
     }

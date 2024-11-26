@@ -39,6 +39,7 @@ public class BuildCommand implements CommandExecutor {
             player.sendMessage("§aVocê entrou no modo de construção!");
         }
 
+        plugin.debug("Modo de construção alterado de " + player.getName(), true);
         return true;
     }
 
