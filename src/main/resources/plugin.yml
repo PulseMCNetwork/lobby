@@ -7,3 +7,4 @@ commands:
   language:
     aliases: [idioma, linguagem]
   setlobby:
+  build:

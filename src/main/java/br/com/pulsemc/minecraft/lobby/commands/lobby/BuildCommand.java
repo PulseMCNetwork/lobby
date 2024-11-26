@@ -36,7 +36,7 @@ public class BuildCommand implements CommandExecutor {
             player.sendMessage("§cVocê saiu do modo de construção!");
         } else {
             buildModePlayers.add(player);
-            player.setDisplayName("§aVocê entrou no modo de construção!");
+            player.sendMessage("§aVocê entrou no modo de construção!");
         }
 
         return true;
