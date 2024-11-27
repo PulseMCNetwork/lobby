@@ -1,13 +1,16 @@
 package br.com.pulsemc.minecraft.lobby.commands;
 
 import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.api.reload.event.PlayerReloadConfigEvent;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,15 @@ public class PulseLobbyCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
+
+            PlayerReloadConfigEvent reloadEvent = new PlayerReloadConfigEvent(player, LocalDateTime.now(), label);
+            Bukkit.getPluginManager().callEvent(reloadEvent);
+
+            if (reloadEvent.isCancelled()) {
+                player.sendMessage("§cO recarregamento foi cancelado por outro sistema.");
+                return true;
+            }
+
             plugin.getConfiguration().reloadConfig();
             plugin.getMessagesConfiguration().reloadMessages();
             player.sendMessage("§aConfigurações recarregadas!");

@@ -27,6 +27,8 @@ public class LobbyItemListener implements Listener {
 
         Player player = e.getPlayer();
 
+        player.getInventory().clear();
+
         plugin.getLobbyItemManager().giveLobbyItems(player);
 
         player.setCompassTarget(player.getLocation());

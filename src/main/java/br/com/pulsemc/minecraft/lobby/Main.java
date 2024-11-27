@@ -8,6 +8,7 @@ import br.com.pulsemc.minecraft.lobby.commands.lobby.SetLobbyCommand;
 import br.com.pulsemc.minecraft.lobby.configurations.Configuration;
 import br.com.pulsemc.minecraft.lobby.configurations.MessagesConfiguration;
 import br.com.pulsemc.minecraft.lobby.database.MySQLManager;
+import br.com.pulsemc.minecraft.lobby.placeholder.PlayerPlaceholders;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 import br.com.pulsemc.minecraft.lobby.systems.language.listener.PlayerLanguageEvents;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.items.initializer.ItemInitializer;
@@ -15,6 +16,7 @@ import br.com.pulsemc.minecraft.lobby.systems.lobby.items.listener.LobbyItemList
 import br.com.pulsemc.minecraft.lobby.systems.lobby.items.manager.LobbyItemManager;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.listener.LobbyListener;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.manager.LobbyManager;
+import br.com.pulsemc.minecraft.lobby.systems.manager.PlayerDataManager;
 import br.com.pulsemc.minecraft.lobby.systems.motd.MOTDListener;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.listener.ScoreboardListener;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.manager.ScoreboardManager;
@@ -37,6 +39,7 @@ public final class Main extends JavaPlugin {
     private MySQLManager mySQLManager;
 
     // Systems
+    private PlayerDataManager playerDataManager; // Depends: MySQLManager
     private LanguageRegistry languageRegistry; // Depends: Configuration, MessagesConfiguration, MySQLManager
     private LobbyManager lobbyManager; // Depends: Configuration
     private ScoreboardManager scoreboardManager; // Depends: LanguageRegistry
@@ -128,6 +131,7 @@ public final class Main extends JavaPlugin {
         debug(" ", false);
         debug("&eCarregando gerenciadores...", false);
 
+        playerDataManager = new PlayerDataManager(this);
         lobbyManager = new LobbyManager(this);
         scoreboardManager = new ScoreboardManager(this);
         tabManager = new TabManager(this);
@@ -182,6 +186,7 @@ public final class Main extends JavaPlugin {
         debug("&eInicializando APIs...", false);
 
         LanguageAPIProvider.initialize(this);
+        new PlayerPlaceholders(this).register();
 
         debug("&aAPIs inicializadas " + stopwatch.stop() + "!", false);
     }

@@ -2,6 +2,7 @@ package br.com.pulsemc.minecraft.lobby.database;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import lombok.Getter;
+import lombok.var;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,6 +41,26 @@ public class MySQLManager {
             e.printStackTrace();
         }
     }
+
+    public void createTables() {
+        try (Connection conn = getConnection();
+             var statement = conn.createStatement()) {
+
+            String sql = "CREATE TABLE IF NOT EXISTS player_data (" +
+                    "uuid VARCHAR(36) PRIMARY KEY, " +
+                    "first_join TIMESTAMP, " +
+                    "online_time BIGINT DEFAULT 0" +
+                    ");";
+
+            statement.executeUpdate(sql);
+            plugin.debug("&aTabela player_data verificada/criada com sucesso.", false);
+
+        } catch (SQLException e) {
+            plugin.debug("&cErro ao criar/verificar tabela: " + e.getMessage(), false);
+            e.printStackTrace();
+        }
+    }
+
 
     public Connection getConnection() {
         try {
