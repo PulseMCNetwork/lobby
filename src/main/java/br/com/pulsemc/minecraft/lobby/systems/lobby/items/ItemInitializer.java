@@ -1,4 +1,4 @@
-package br.com.pulsemc.minecraft.lobby.systems.lobby.items.initializer;
+package br.com.pulsemc.minecraft.lobby.systems.lobby.items;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.configurations.MessagesConfiguration;

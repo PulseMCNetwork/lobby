@@ -1,4 +1,4 @@
-package br.com.pulsemc.minecraft.lobby.systems.tab.manager;
+package br.com.pulsemc.minecraft.lobby.systems.tab;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;

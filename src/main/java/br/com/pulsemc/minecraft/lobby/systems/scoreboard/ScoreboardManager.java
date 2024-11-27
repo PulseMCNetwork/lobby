@@ -1,4 +1,4 @@
-package br.com.pulsemc.minecraft.lobby.systems.scoreboard.manager;
+package br.com.pulsemc.minecraft.lobby.systems.scoreboard;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;

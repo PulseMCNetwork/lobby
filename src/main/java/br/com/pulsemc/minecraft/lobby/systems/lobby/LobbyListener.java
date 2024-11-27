@@ -1,4 +1,4 @@
-package br.com.pulsemc.minecraft.lobby.systems.lobby.listener;
+package br.com.pulsemc.minecraft.lobby.systems.lobby;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.commands.lobby.BuildCommand;
