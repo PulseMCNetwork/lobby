@@ -15,6 +15,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+/*
+@author: syncwrld
+@website: https://github.com/syncwrld
+ */
 public class ItemBuilder {
     private final ItemStack is;
 
