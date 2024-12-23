@@ -1,6 +1,9 @@
 package br.com.pulsemc.minecraft.lobby;
 
 import br.com.pulsemc.minecraft.lobby.api.providers.LanguageAPIProvider;
+import br.com.pulsemc.minecraft.lobby.api.providers.LobbyAPIProvider;
+import br.com.pulsemc.minecraft.lobby.api.providers.LobbyItemAPIProvider;
+import br.com.pulsemc.minecraft.lobby.api.providers.TabAPIProvider;
 import br.com.pulsemc.minecraft.lobby.commands.PulseLobbyCommand;
 import br.com.pulsemc.minecraft.lobby.commands.language.LanguageCommand;
 import br.com.pulsemc.minecraft.lobby.commands.lobby.BuildCommand;
@@ -16,8 +19,7 @@ import br.com.pulsemc.minecraft.lobby.systems.lobby.items.LobbyItemListener;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.items.LobbyItemManager;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.LobbyListener;
 import br.com.pulsemc.minecraft.lobby.systems.lobby.LobbyManager;
-import br.com.pulsemc.minecraft.lobby.systems.manager.PlayerDataManager;
-import br.com.pulsemc.minecraft.lobby.systems.motd.MOTDListener;
+import br.com.pulsemc.minecraft.lobby.systems.PlayerDataManager;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.ScoreboardListener;
 import br.com.pulsemc.minecraft.lobby.systems.scoreboard.ScoreboardManager;
 import br.com.pulsemc.minecraft.lobby.systems.tab.TabListener;
@@ -72,6 +74,9 @@ public final class Main extends JavaPlugin {
     public void onDisable() {
 
         LanguageAPIProvider.shutdown();
+        TabAPIProvider.shutdown();
+        LobbyAPIProvider.shutdown();
+        LobbyItemAPIProvider.shutdown();
 
         if (mySQLManager != null) {
             mySQLManager.disconnect();
@@ -152,7 +157,6 @@ public final class Main extends JavaPlugin {
                 new LobbyListener(this),
                 new ScoreboardListener(this),
                 new TabListener(this),
-                new MOTDListener(this),
                 new LobbyItemListener(this)
         );
 
@@ -186,6 +190,10 @@ public final class Main extends JavaPlugin {
         debug("&eInicializando APIs...", false);
 
         LanguageAPIProvider.initialize(this);
+        TabAPIProvider.initialize(this);
+        LobbyAPIProvider.initialize(this);
+        LobbyItemAPIProvider.initialize(this);
+
         new PlayerPlaceholders(this).register();
 
         debug("&aAPIs inicializadas " + stopwatch.stop() + "!", false);

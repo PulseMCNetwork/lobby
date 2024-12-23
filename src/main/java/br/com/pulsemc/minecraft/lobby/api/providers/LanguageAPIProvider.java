@@ -31,7 +31,7 @@ public class LanguageAPIProvider {
 
     public static void shutdown() {
         if (instance != null) {
-            ((LanguageRegistry) instance.languageAPI).clearCache();
+            ((LanguageRegistry) instance.languageAPI).onDisable();
             instance = null;
         }
     }

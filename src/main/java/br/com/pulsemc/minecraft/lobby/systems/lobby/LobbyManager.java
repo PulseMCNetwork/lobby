@@ -1,12 +1,19 @@
 package br.com.pulsemc.minecraft.lobby.systems.lobby;
 
 import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.api.lobby.LobbyAPI;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class LobbyManager {
+import java.util.HashSet;
+import java.util.Set;
+
+public class LobbyManager implements LobbyAPI {
 
     private final Main plugin;
+    @Getter
+    private Set<Player> canPvP = new HashSet<>();
 
     public LobbyManager(Main plugin) {
         this.plugin = plugin;
@@ -53,5 +60,25 @@ public class LobbyManager {
 
         Location lobbyLocation = new Location(plugin.getServer().getWorld(worldName), x, y, z, yaw, pitch);
         player.teleport(lobbyLocation);
+    }
+
+    public void setPlayerPvP(Player player, boolean playerCanPvP) {
+
+        if (playerCanPvP) {
+
+            if (canPvP.contains(player)) return;
+
+            canPvP.add(player);
+
+        } else {
+
+            if (!canPvP.contains(player)) return;
+
+            canPvP.remove(player);
+        }
+    }
+
+    public boolean playerCanPvP(Player player) {
+        return canPvP.contains(player);
     }
 }

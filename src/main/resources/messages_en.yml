@@ -1,36 +1,83 @@
 messages:
-  no-permission: "&cYou don't have permission."
-  player-not-found: "&cPlayer not found."
-  language-selected: "&aSelected Language: {LANGUAGE}"
+  no-permission: '&cYou don''t have permission.'
+  player-not-found: '&cPlayer not found.'
+  language-selected: '&aSelected Language: {LANGUAGE}'
   languages-available:
-    - "&eAvailable languages:"
-    - " "
-    - "&aPT - Português"
-    - "&aEN - English"
-    - " "
-    - "&aUse: /language <language>"
+    - '&eAvailable languages:'
+    - ' '
+    - '&aPT - Português'
+    - '&aEN - English'
+    - ' '
+    - '&aUse: /language <language>'
   language-not-found:
-    - "&cLanguage not found."
-    - "&eAvailable languages:"
-    - " "
-    - "&aPT - Português"
-    - "&aEN - English"
-    - " "
-    - "&aUse: /language <language>"
-  scoreboard-title: "&5&lPULSEMC"
+    - '&cLanguage not found.'
+    - '&eAvailable languages:'
+    - ' '
+    - '&aPT - Português'
+    - '&aEN - English'
+    - ' '
+    - '&aUse: /language <language>'
+  scoreboard-title: '&5&lPulseMC'
   scoreboard-lines:
-    - " "
-    - "&fTag: &7&lSOON"
-    - " "
-    - "&fPlayers: &5%bungee_total% online"
-    - "&5pulsemc.com.br"
+    - ' '
+    - '&fTag: &7&lSOON'
+    - ' '
+    - '&fPlayers: &5%bungee_total% online'
+    - '&5pulsemc.com.br'
+  scoreboard-duel-title: '&5&lPulseMC'
+  scoreboard-duel-lines:
+    - ' '
+    - '&fYou: &9{PLAYER_NICK} &7- &9{PLAYER_PING}ms'
+    - '&fOpponent: &c{OPPONENT_NICK} &7- &c{OPPONENT_PING}ms'
+    - ' '
+    - '&5pulsemc.com.br'
   tab-title:
-    - " "
-    - "&5&lPulseMC"
-    - " "
+    - ' '
+    - '&5&lPulseMC'
+    - ' '
   tab-footer:
-    - " "
-    - "&fDiscord: &5bit.ly/DiscordPulseMC"
-    - "&fShop: &5pulsemc.com.br"
-    - "&5pulsemc.com.br"
-    - " "
+    - ' '
+    - '&fDiscord: &5bit.ly/DiscordPulseMC'
+    - '&fShop: &5pulsemc.com.br'
+    - '&5pulsemc.com.br'
+    - ' '
+  fly:
+    enabled: '&aFly mode enabled!'
+    disabled: '&cFly mode disabled!'
+  duels:
+    you-already-have-pending-challenge: '&cYou already have a pending challenge!'
+    player-already-have-pending-challenge: '&cThis player already has a pending challenge!'
+    you-challenged: '&aYou challenged the player {OPPONENT} to a duel!'
+    you-were-challenged:
+      - '&fYou were challenged to a duel by {CHALLENGER}!'
+      - '{ACCEPT-BUTTON} &2to accept &for {DENY-BUTTON} &cto deny.'
+    accept-button: '&2&lCLICK HERE'
+    deny-button: '&c&lCLICK HERE'
+    your-duel-challenge-expired: '&cYour duel challenge to {OPPONENT} has expired.'
+    duel-challenge-sent-expired: '&cThe duel challenge sent by {CHALLENGER} has expired.'
+    dont-have-any-duel: '&cYou don''t have any duel requests to accept!'
+    you-denied-duel: '&aYou denied the duel request.'
+    you-accept-duel: '&aYou accepted the duel request from {CHALLENGER}!'
+    opponent-accepted-duel: '&a{OPPONENT} accepted your duel request!'
+    player-left-server: '&cThis player has left the server!'
+    title-win: '&a&lYou Win!'
+    subtitle-win: ''
+    message-win: '&aYou won the duel over {LOSER} '
+    title-lost: '&c&lYou Lost!'
+    subtitle-lost: '&cGood Luck Next Time'
+    message-lost: '&cYou lost the duel for {WINNER}'
+    killed-too-many:
+      - '&cYou have killed this player too many times.'
+      - '&cThis duel did not count towards statistics!'
+lobby-itens:
+  compass:
+    name: '&aSelect Game'
+    lore:
+      - ' '
+      - '&fClick here to &aSelect the Game'
+  duels:
+    name: '&aChallenge to a Duel'
+    lore:
+      - ' '
+      - '&fHit a player with this to'
+      - '&aChallenge them to a Duel'

@@ -22,7 +22,7 @@ public class TabListener implements Listener {
 
         Player player = e.getPlayer();
 
-        plugin.getTabManager().createTab(player);
+        plugin.getTabManager().sendTab(player);
     }
 
     @EventHandler
@@ -41,7 +41,7 @@ public class TabListener implements Listener {
         plugin.getTabManager().resetTab(player);
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            plugin.getTabManager().createTab(player);
+            plugin.getTabManager().sendTab(player);
             plugin.debug("TabListener.java - Novo tab criado", true);
         }, 10L);
     }

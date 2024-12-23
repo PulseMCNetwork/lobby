@@ -13,7 +13,9 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
@@ -28,7 +30,6 @@ public class LobbyListener implements Listener {
         this.plugin = plugin;
     }
 
-    // JOGADOR
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
 
@@ -39,7 +40,6 @@ public class LobbyListener implements Listener {
         player.setHealth(20);
         player.getActivePotionEffects().clear();
 
-        // Lobby Teleport
         if (plugin.getLobbyManager().getLobbyLocation() == null) {
 
             if (player.hasPermission("lobby.setup")) {
@@ -51,15 +51,13 @@ public class LobbyListener implements Listener {
 
         plugin.getLobbyManager().teleportToLobby(player);
 
-        // Change Gamemode
         player.setGameMode(GameMode.ADVENTURE);
 
-        // Played Time
         String uuid = e.getPlayer().getUniqueId().toString();
-        PlayerData playerData = plugin.getPlayerDataManager().loadPlayerData(uuid);
 
         sessionStart.put(uuid, System.currentTimeMillis());
-        plugin.debug("&aJogador entrou: " + uuid, true);
+
+        plugin.getLobbyManager().setPlayerPvP(player, false);
     }
 
     @EventHandler
@@ -67,7 +65,6 @@ public class LobbyListener implements Listener {
 
         e.setQuitMessage(null);
 
-        // Played Time
         String uuid = e.getPlayer().getUniqueId().toString();
         long startTime = sessionStart.getOrDefault(uuid, System.currentTimeMillis());
 
@@ -79,11 +76,17 @@ public class LobbyListener implements Listener {
         }
 
         sessionStart.remove(uuid);
+
+        if (plugin.getLobbyManager().getCanPvP().contains(e.getPlayer())) {
+            plugin.getLobbyManager().getCanPvP().remove(e.getPlayer());
+        }
     }
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player)) return;
+
+        if (plugin.getLobbyManager().getCanPvP().contains((Player) e.getEntity())) return;
 
         e.setCancelled(true);
     }
@@ -105,6 +108,20 @@ public class LobbyListener implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
         if (e.getEntity() instanceof Player) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDrop(PlayerDropItemEvent e) {
+        if (!BuildCommand.playerCanBuild(e.getPlayer())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerPickup(PlayerPickupItemEvent e) {
+        if (!BuildCommand.playerCanBuild(e.getPlayer())) {
             e.setCancelled(true);
         }
     }

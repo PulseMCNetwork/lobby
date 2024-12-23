@@ -33,35 +33,30 @@ public class LanguageCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        // Caso o jogador não forneça argumentos, mostre a lista de idiomas disponíveis
         if (args.length == 0) {
             List<String> messages = LanguageAPIProvider.get()
-                    .getListMessage(player, LanguagePath.LANGUAGE_NOT_FOUND);
+                    .getListMessage(player, LanguagePath.LANGUAGES_AVAILABLE);
             for (String message : messages) {
                 player.sendMessage(message);
             }
             return true;
         }
 
-        // Valida o idioma fornecido
         if (args.length == 1) {
             String iso = args[0].toUpperCase();
             LanguageLocale locale = LanguageLocale.fromString(iso);
 
             if (locale == null) {
-                // Idioma inválido, mostra mensagem de erro
                 List<String> messages = LanguageAPIProvider.get()
-                        .getListMessage(player, LanguagePath.LANGUAGES_AVAILABLE);
+                        .getListMessage(player, LanguagePath.LANGUAGE_NOT_FOUND);
                 for (String message : messages) {
                     player.sendMessage(message);
                 }
                 return true;
             }
 
-            // Define o novo idioma do jogador
             LanguageAPIProvider.get().setPlayerLanguage(player, locale);
 
-            // Envia mensagem confirmando a troca de idioma
             String successMessage = LanguageAPIProvider.get()
                     .getMessage(player, LanguagePath.LANGUAGE_SELECTED)
                     .replace("{LANGUAGE}", locale.name());
@@ -70,7 +65,6 @@ public class LanguageCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        // Argumentos inválidos
         player.sendMessage("§cUse: /language <iso>");
         return true;
     }

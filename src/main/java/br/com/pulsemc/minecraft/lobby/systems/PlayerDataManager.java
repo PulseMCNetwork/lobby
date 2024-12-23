@@ -1,4 +1,4 @@
-package br.com.pulsemc.minecraft.lobby.systems.manager;
+package br.com.pulsemc.minecraft.lobby.systems;
 
 import br.com.pulsemc.minecraft.lobby.Main;
 import br.com.pulsemc.minecraft.lobby.model.PlayerData;

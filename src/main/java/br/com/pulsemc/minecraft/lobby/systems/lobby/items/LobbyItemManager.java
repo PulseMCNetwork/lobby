@@ -1,6 +1,7 @@
 package br.com.pulsemc.minecraft.lobby.systems.lobby.items;
 
 import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.api.lobby.LobbyItemAPI;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageLocale;
 import br.com.pulsemc.minecraft.lobby.tools.ItemBuilder;
 import de.tr7zw.nbtapi.NBTItem;
@@ -12,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class LobbyItemManager {
+public class LobbyItemManager implements LobbyItemAPI {
 
     private final Main plugin;
 

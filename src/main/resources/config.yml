@@ -8,9 +8,7 @@ mysql:
 
 debug: true
 
-motd:
-  - "&5&lPulseMC"
-  - "&fFaremos História em &6&l2025&f!"
+format-messages: '%leaftags_tag_prefix% {PLAYER-NAME} &7» &f{MESSAGE}'
 
 lobby-itens:
   # Exemplo
@@ -21,3 +19,8 @@ lobby-itens:
     material: COMPASS
     data: 0
     command: dm open minigames
+  duels:
+    slot: 4
+    material: BLAZE_ROD
+    data: 0
+    commando: duels desafiar {TARGET}

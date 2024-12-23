@@ -8,16 +8,15 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-/**
- * Evento disparado quando um jogador troca de linguagem.
- */
 @Getter
 public class PlayerLanguageChangeEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private final Player player;
     private final LanguageLocale oldLanguage;
-    private final LanguageLocale newLanguage;
+
+    @Setter
+    private LanguageLocale newLanguage;
 
     @Setter
     private boolean cancelled;

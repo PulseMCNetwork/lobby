@@ -6,26 +6,29 @@ import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEv
 import br.com.pulsemc.minecraft.lobby.database.MySQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LanguageRegistry implements LanguageAPI {
 
     private final MySQLManager mySQLManager;
     private final Main plugin;
     private final Map<UUID, LanguageLocale> playerLanguageCache = new ConcurrentHashMap<>();
+    private final ConcurrentLinkedQueue<UUID> pendingUpdates = new ConcurrentLinkedQueue<>();
+    private BukkitRunnable databaseSyncTask;
+    private boolean shuttingDown = false;
 
     public LanguageRegistry(Main plugin) {
         this.plugin = plugin;
         this.mySQLManager = plugin.getMySQLManager();
         createTable();
+        startDatabaseSync();
     }
 
     private void createTable() {
@@ -42,30 +45,18 @@ public class LanguageRegistry implements LanguageAPI {
     }
 
     public void setPlayerLanguage(Player player, LanguageLocale locale) {
+        if (shuttingDown) return;
+
         UUID playerUUID = player.getUniqueId();
         LanguageLocale oldLanguage = getPlayerLanguage(player);
 
         PlayerLanguageChangeEvent event = new PlayerLanguageChangeEvent(player, oldLanguage, locale);
         Bukkit.getPluginManager().callEvent(event);
-        plugin.debug("Evento PlayerLanguageChangeEvent chamado para " + player.getName(), true);
 
-        if (event.isCancelled()) {
-            plugin.debug("Evento PlayerLanguageChangeEvent cancelado para " + player.getName(), true);
-            return;
-        }
+        if (event.isCancelled()) return;
 
         playerLanguageCache.put(playerUUID, locale);
-
-        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
-                "REPLACE INTO player_languages (uuid, language) VALUES (?, ?)"
-        )) {
-            statement.setString(1, playerUUID.toString());
-            statement.setString(2, locale.name());
-            statement.executeUpdate();
-            plugin.debug("Linguagem alterada do jogador " + player.getName() + " para " + locale, true);
-        } catch (SQLException e) {
-            plugin.debug("&cErro ao salvar idioma no MySQL: " + e.getMessage(), false);
-        }
+        pendingUpdates.add(playerUUID);
     }
 
     public LanguageLocale getPlayerLanguage(Player player) {
@@ -94,7 +85,7 @@ public class LanguageRegistry implements LanguageAPI {
             plugin.debug("&cErro ao carregar idioma do MySQL: " + e.getMessage(), false);
         }
 
-        return null;
+        return LanguageLocale.PT_BR;
     }
 
     public String getMessage(Player player, LanguagePath path) {
@@ -107,8 +98,58 @@ public class LanguageRegistry implements LanguageAPI {
         return plugin.getMessagesConfiguration().getMessageList(locale, path.getPath());
     }
 
+    private void startDatabaseSync() {
+        databaseSyncTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                syncPendingUpdates();
+            }
+        };
+        databaseSyncTask.runTaskTimerAsynchronously(plugin, 0L, 36000L); // A cada 5 minutos
+    }
+
+    private void syncPendingUpdates() {
+        Set<UUID> toUpdate = new HashSet<>();
+        while (!pendingUpdates.isEmpty()) {
+            UUID uuid = pendingUpdates.poll();
+            if (uuid != null) {
+                toUpdate.add(uuid);
+            }
+        }
+
+        if (toUpdate.isEmpty()) return;
+
+        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
+                "REPLACE INTO player_languages (uuid, language) VALUES (?, ?)"
+        )) {
+            for (UUID uuid : toUpdate) {
+                LanguageLocale locale = playerLanguageCache.get(uuid);
+                if (locale != null) {
+                    statement.setString(1, uuid.toString());
+                    statement.setString(2, locale.name());
+                    statement.addBatch();
+                }
+            }
+            statement.executeBatch();
+            plugin.debug("Idiomas sincronizados com sucesso na base de dados.", true);
+        } catch (SQLException e) {
+            plugin.debug("&cErro ao sincronizar idiomas no MySQL: " + e.getMessage(), false);
+        }
+    }
+
     public void clearCache() {
+        syncPendingUpdates();
         playerLanguageCache.clear();
         plugin.debug("Cache de linguagens limpo com sucesso.", true);
+    }
+
+    public void onDisable() {
+        shuttingDown = true;
+
+        if (databaseSyncTask != null) {
+            databaseSyncTask.cancel();
+        }
+
+        clearCache();
     }
 }

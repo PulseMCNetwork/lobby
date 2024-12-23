@@ -43,7 +43,7 @@ public class MessagesConfiguration {
 
     public String getMessage(LanguageLocale locale, String path) {
         FileConfiguration config = getConfigForLocale(locale);
-        String message = config.getString(path, "§cMensagem não encontrada.");
+        String message = config.getString(path, "§cMensagem não encontrada: " + path);
         return message.replace("&", "§");
     }
 
