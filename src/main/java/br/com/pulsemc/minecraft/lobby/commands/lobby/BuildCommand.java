@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.commands.lobby;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,10 +12,10 @@ import java.util.Set;
 
 public class BuildCommand implements CommandExecutor {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     private static final Set<Player> buildModePlayers = new HashSet<>();
 
-    public BuildCommand(Main plugin) {
+    public BuildCommand(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

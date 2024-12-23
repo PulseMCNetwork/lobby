@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.database;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import lombok.Getter;
 import lombok.var;
 
@@ -11,10 +11,10 @@ import java.sql.SQLException;
 @Getter
 public class MySQLManager {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     private Connection connection;
 
-    public MySQLManager(Main plugin) {
+    public MySQLManager(LobbyPlugin plugin) {
         this.plugin = plugin;
         connect();
     }

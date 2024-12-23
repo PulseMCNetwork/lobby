@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.scoreboard;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 import br.com.pulsemc.minecraft.lobby.tools.Text;
 import fr.mrmicky.fastboard.FastBoard;
@@ -15,10 +15,10 @@ import java.util.UUID;
 
 public class ScoreboardManager {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     private final Map<UUID, FastBoard> boards = new HashMap<>();
 
-    public ScoreboardManager(Main plugin) {
+    public ScoreboardManager(LobbyPlugin plugin) {
         this.plugin = plugin;
         LanguageRegistry languageRegistry = plugin.getLanguageRegistry();
 

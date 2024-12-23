@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.lobby.items;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEvent;
 import br.com.pulsemc.minecraft.lobby.commands.lobby.BuildCommand;
 import de.tr7zw.nbtapi.NBT;
@@ -19,9 +19,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class LobbyItemListener implements Listener {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public LobbyItemListener(Main plugin) {
+    public LobbyItemListener(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

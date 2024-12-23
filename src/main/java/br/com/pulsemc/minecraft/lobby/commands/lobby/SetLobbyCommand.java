@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.commands.lobby;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class SetLobbyCommand implements CommandExecutor {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public SetLobbyCommand(Main plugin) {
+    public SetLobbyCommand(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.lobby;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.commands.lobby.BuildCommand;
 import br.com.pulsemc.minecraft.lobby.model.PlayerData;
 import org.bukkit.GameMode;
@@ -23,10 +23,10 @@ import java.util.Map;
 
 public class LobbyListener implements Listener {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     private final Map<String, Long> sessionStart = new HashMap<>();
 
-    public LobbyListener(Main plugin) {
+    public LobbyListener(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

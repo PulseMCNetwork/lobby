@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.lobby;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.lobby.LobbyAPI;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -11,11 +11,11 @@ import java.util.Set;
 
 public class LobbyManager implements LobbyAPI {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     @Getter
     private Set<Player> canPvP = new HashSet<>();
 
-    public LobbyManager(Main plugin) {
+    public LobbyManager(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

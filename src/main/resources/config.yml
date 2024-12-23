@@ -1,10 +1,15 @@
 mysql:
-  host: "localhost"
+  host: br.asc.01.db.streethosting.com.br
   port: 3306
-  database: "minecraft"
-  username: "root"
-  password: "password"
-  options: "?useSSL=false&autoReconnect=true"
+  database: s30_lobby
+  username: u30_ty6YXPeydy
+  password: KLsN^E=6HgJUSnulvDDUv^zL
+  options: ?useSSL=false&autoReconnect=true
+
+redis:
+  host: br-asc-01.streethosting.com.br
+  port: 25567
+  password: fodase23123
 
 debug: true
 
@@ -18,9 +23,11 @@ lobby-itens:
     # Se for SKULL_ITEM e data: 3, retorna a cabeça do jogador
     material: COMPASS
     data: 0
+    glow: false
     command: dm open minigames
   duels:
     slot: 4
     material: BLAZE_ROD
     data: 0
+    glow: false
     commando: duels desafiar {TARGET}

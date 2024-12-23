@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.configurations;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageLocale;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 @Getter
 public class MessagesConfiguration {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     private final File messagesPtFile;
     private final File messagesEnFile;
     private FileConfiguration messagesPtConfig;
     private FileConfiguration messagesEnConfig;
 
-    public MessagesConfiguration(Main plugin) {
+    public MessagesConfiguration(LobbyPlugin plugin) {
         this.plugin = plugin;
 
         // Define os arquivos de mensagens

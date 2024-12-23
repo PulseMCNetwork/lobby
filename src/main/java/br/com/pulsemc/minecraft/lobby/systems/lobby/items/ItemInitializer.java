@@ -1,15 +1,15 @@
 package br.com.pulsemc.minecraft.lobby.systems.lobby.items;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.configurations.MessagesConfiguration;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageLocale;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class ItemInitializer {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public ItemInitializer(Main plugin) {
+    public ItemInitializer(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -25,7 +25,6 @@ public class ItemInitializer {
                 String defaultName = "&cconfigure aqui: " + namePath;
                 String defaultLore = "&cconfigure aqui: " + lorePath;
 
-                // Adiciona mensagens padrão para cada idioma
                 for (LanguageLocale locale : LanguageLocale.values()) {
                     messagesConfig.addDefaultMessage(locale, namePath, defaultName);
                     messagesConfig.addDefaultMessage(locale, lorePath, defaultLore);

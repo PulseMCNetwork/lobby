@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.api.providers;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.language.LanguageAPI;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 
@@ -12,11 +12,11 @@ public class LanguageAPIProvider {
     private static LanguageAPIProvider instance;
     private final LanguageAPI languageAPI;
 
-    private LanguageAPIProvider(Main plugin) {
+    private LanguageAPIProvider(LobbyPlugin plugin) {
         this.languageAPI = plugin.getLanguageRegistry();
     }
 
-    public static void initialize(Main plugin) {
+    public static void initialize(LobbyPlugin plugin) {
         if (instance == null) {
             instance = new LanguageAPIProvider(plugin);
         }

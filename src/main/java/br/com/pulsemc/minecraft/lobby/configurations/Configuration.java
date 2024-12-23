@@ -1,16 +1,16 @@
 package br.com.pulsemc.minecraft.lobby.configurations;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 
 @Getter
 public class Configuration {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     private FileConfiguration config;
 
-    public Configuration(Main plugin) {
+    public Configuration(LobbyPlugin plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
     }

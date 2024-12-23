@@ -1,9 +1,10 @@
 package br.com.pulsemc.minecraft.lobby.systems.language;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.language.LanguageAPI;
 import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEvent;
 import br.com.pulsemc.minecraft.lobby.database.MySQLManager;
+import br.com.pulsemc.minecraft.lobby.database.redis.RedisManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -19,15 +20,21 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class LanguageRegistry implements LanguageAPI {
 
     private final MySQLManager mySQLManager;
-    private final Main plugin;
+    private final LobbyPlugin plugin;
+    private final RedisManager redisManager;
+
     private final Map<UUID, LanguageLocale> playerLanguageCache = new ConcurrentHashMap<>();
     private final ConcurrentLinkedQueue<UUID> pendingUpdates = new ConcurrentLinkedQueue<>();
+
     private BukkitRunnable databaseSyncTask;
+
     private boolean shuttingDown = false;
 
-    public LanguageRegistry(Main plugin) {
+    public LanguageRegistry(LobbyPlugin plugin) {
         this.plugin = plugin;
         this.mySQLManager = plugin.getMySQLManager();
+        this.redisManager = plugin.getRedisManager();
+
         createTable();
         startDatabaseSync();
     }
@@ -58,6 +65,14 @@ public class LanguageRegistry implements LanguageAPI {
 
         playerLanguageCache.put(playerUUID, locale);
         pendingUpdates.add(playerUUID);
+
+        try {
+            String message = String.format("{\"uuid\":\"%s\",\"locale\":\"%s\"}", playerUUID.toString(), locale.name());
+            redisManager.publish("language-updates", message);
+            plugin.debug("§aMensagem enviada para Redis: " + message, true);
+        } catch (Exception e) {
+            plugin.debug("§cFalha ao enviar mensagem para Redis: " + e.getMessage(), false);
+        }
     }
 
     public LanguageLocale getPlayerLanguage(Player player) {

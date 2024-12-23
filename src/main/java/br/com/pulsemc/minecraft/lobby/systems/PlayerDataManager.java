@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.model.PlayerData;
 
 import java.sql.PreparedStatement;
@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 public class PlayerDataManager {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public PlayerDataManager(Main plugin) {
+    public PlayerDataManager(LobbyPlugin plugin) {
         this.plugin = plugin;
         plugin.getMySQLManager().createTables();
     }

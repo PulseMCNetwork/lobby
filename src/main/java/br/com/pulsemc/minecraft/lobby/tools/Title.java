@@ -3,8 +3,11 @@ package br.com.pulsemc.minecraft.lobby.tools;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -13,8 +16,10 @@ import org.bukkit.entity.Player;
 @author: syncwrld
 @website: https://github.com/syncwrld
  */
+@Getter
+@Setter
 public class Title {
-    private static final Map<Class<?>, Class<?>> CORRESPONDING_TYPES = new HashMap();
+    private static final Map<Class<?>, Class<?>> CORRESPONDING_TYPES = new HashMap<>();
     private static Class<?> packetTitle;
     private static Class<?> packetActions;
     private static Class<?> nmsChatSerializer;
@@ -123,22 +128,6 @@ public class Title {
 
     }
 
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSubtitle() {
-        return this.subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
     public void setTimingsToTicks() {
         this.ticks = true;
     }
@@ -158,19 +147,21 @@ public class Title {
                 Method sendPacket = this.getMethod(connection.getClass(), "sendPacket");
                 Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent, Integer.TYPE, Integer.TYPE, Integer.TYPE).newInstance(actions[2], null, this.fadeInTime * (this.ticks ? 1 : 20), this.stayTime * (this.ticks ? 1 : 20), this.fadeOutTime * (this.ticks ? 1 : 20));
                 if (this.fadeInTime != -1 && this.fadeOutTime != -1 && this.stayTime != -1) {
+                    assert sendPacket != null;
                     sendPacket.invoke(connection, packet);
                 }
 
                 Object serialized = nmsChatSerializer.getConstructor(String.class).newInstance(ChatColor.translateAlternateColorCodes('&', this.title));
                 packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[0], serialized);
+                assert sendPacket != null;
                 sendPacket.invoke(connection, packet);
-                if (this.subtitle != "") {
+                if (!Objects.equals(this.subtitle, "")) {
                     serialized = nmsChatSerializer.getConstructor(String.class).newInstance(ChatColor.translateAlternateColorCodes('&', this.subtitle));
                     packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[1], serialized);
                     sendPacket.invoke(connection, packet);
                 }
-            } catch (Exception var8) {
-                var8.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -185,10 +176,11 @@ public class Title {
                 Method sendPacket = this.getMethod(connection.getClass(), "sendPacket");
                 Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent, Integer.TYPE, Integer.TYPE, Integer.TYPE).newInstance(actions[2], 0, this.fadeInTime * (this.ticks ? 1 : 20), this.stayTime * (this.ticks ? 1 : 20), this.fadeOutTime * (this.ticks ? 1 : 20));
                 if (this.fadeInTime != -1 && this.fadeOutTime != -1 && this.stayTime != -1) {
+                    assert sendPacket != null;
                     sendPacket.invoke(connection, packet);
                 }
-            } catch (Exception var7) {
-                var7.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -203,9 +195,10 @@ public class Title {
                 Method sendPacket = this.getMethod(connection.getClass(), "sendPacket");
                 Object serialized = nmsChatSerializer.getConstructor(String.class).newInstance(ChatColor.translateAlternateColorCodes('&', this.title));
                 Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[0], serialized);
+                assert sendPacket != null;
                 sendPacket.invoke(connection, packet);
-            } catch (Exception var8) {
-                var8.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -220,19 +213,18 @@ public class Title {
                 Method sendPacket = this.getMethod(connection.getClass(), "sendPacket");
                 Object serialized = nmsChatSerializer.getConstructor(String.class).newInstance(ChatColor.translateAlternateColorCodes('&', this.subtitle));
                 Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[1], serialized);
+                assert sendPacket != null;
                 sendPacket.invoke(connection, packet);
-            } catch (Exception var8) {
-                var8.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
     }
 
     public void broadcast() {
-        Iterator var2 = Bukkit.getOnlinePlayers().iterator();
 
-        while(var2.hasNext()) {
-            Player p = (Player)var2.next();
+        for (Player p : Bukkit.getOnlinePlayers()) {
             this.send(p);
         }
 
@@ -245,9 +237,10 @@ public class Title {
             Object[] actions = packetActions.getEnumConstants();
             Method sendPacket = this.getMethod(connection.getClass(), "sendPacket");
             Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[3], null);
+            assert sendPacket != null;
             sendPacket.invoke(connection, packet);
-        } catch (Exception var7) {
-            var7.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -267,7 +260,7 @@ public class Title {
     }
 
     private Class<?> getPrimitiveType(Class<?> clazz) {
-        return CORRESPONDING_TYPES.containsKey(clazz) ? (Class)CORRESPONDING_TYPES.get(clazz) : clazz;
+        return CORRESPONDING_TYPES.containsKey(clazz) ? CORRESPONDING_TYPES.get(clazz) : clazz;
     }
 
     private Class<?>[] toPrimitiveTypeArray(Class<?>[] classes) {
@@ -308,8 +301,7 @@ public class Title {
 
     private String getVersion() {
         String name = Bukkit.getServer().getClass().getPackage().getName();
-        String version = name.substring(name.lastIndexOf(46) + 1) + ".";
-        return version;
+        return name.substring(name.lastIndexOf(46) + 1) + ".";
     }
 
     private Class<?> getNMSClass(String className) {
@@ -367,47 +359,4 @@ public class Title {
         }
     }
 
-    public ChatColor getTitleColor() {
-        return this.titleColor;
-    }
-
-    public void setTitleColor(ChatColor color) {
-        this.titleColor = color;
-    }
-
-    public ChatColor getSubtitleColor() {
-        return this.subtitleColor;
-    }
-
-    public void setSubtitleColor(ChatColor color) {
-        this.subtitleColor = color;
-    }
-
-    public int getFadeInTime() {
-        return this.fadeInTime;
-    }
-
-    public void setFadeInTime(int time) {
-        this.fadeInTime = time;
-    }
-
-    public int getFadeOutTime() {
-        return this.fadeOutTime;
-    }
-
-    public void setFadeOutTime(int time) {
-        this.fadeOutTime = time;
-    }
-
-    public int getStayTime() {
-        return this.stayTime;
-    }
-
-    public void setStayTime(int time) {
-        this.stayTime = time;
-    }
-
-    public boolean isTicks() {
-        return this.ticks;
-    }
 }

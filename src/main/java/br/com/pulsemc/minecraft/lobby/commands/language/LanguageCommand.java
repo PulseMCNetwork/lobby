@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.commands.language;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.providers.LanguageAPIProvider;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageLocale;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 
 public class LanguageCommand implements CommandExecutor, TabCompleter {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public LanguageCommand(Main plugin) {
+    public LanguageCommand(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

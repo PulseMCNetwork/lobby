@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.tab;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,9 +11,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class TabListener implements Listener {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public TabListener(Main plugin) {
+    public TabListener(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.api.providers;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.lobby.LobbyAPI;
 
 public class LobbyAPIProvider {
@@ -8,11 +8,11 @@ public class LobbyAPIProvider {
     private static LobbyAPIProvider instance;
     private final LobbyAPI lobbyAPI;
 
-    private LobbyAPIProvider(Main plugin) {
+    private LobbyAPIProvider(LobbyPlugin plugin) {
         this.lobbyAPI = plugin.getLobbyManager();
     }
 
-    public static void initialize(Main plugin) {
+    public static void initialize(LobbyPlugin plugin) {
         if (instance == null) {
             instance = new LobbyAPIProvider(plugin);
         }

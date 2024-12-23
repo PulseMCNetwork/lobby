@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.language.listener;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageLocale;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerLanguageEvents implements Listener {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public PlayerLanguageEvents(Main plugin) {
+    public PlayerLanguageEvents(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

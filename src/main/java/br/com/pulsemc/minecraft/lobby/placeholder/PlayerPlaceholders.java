@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.placeholder;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.model.PlayerData;
 import br.com.pulsemc.minecraft.lobby.tools.Time;
 import org.bukkit.entity.Player;
@@ -8,9 +8,9 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class PlayerPlaceholders extends PlaceholderExpansion {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public PlayerPlaceholders(Main plugin) {
+    public PlayerPlaceholders(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.tab;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
@@ -13,10 +13,10 @@ import java.util.List;
 
 public class TabManager implements br.com.pulsemc.minecraft.lobby.api.tab.TabAPI {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
     private final HeaderFooterManager headerFooterManager;
 
-    public TabManager(Main plugin) {
+    public TabManager(LobbyPlugin plugin) {
         this.plugin = plugin;
         this.headerFooterManager = TabAPI.getInstance().getHeaderFooterManager();
         startUpdater();

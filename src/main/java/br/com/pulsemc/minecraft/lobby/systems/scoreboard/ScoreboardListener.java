@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.systems.scoreboard;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.language.events.PlayerLanguageChangeEvent;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
 import org.bukkit.Bukkit;
@@ -14,9 +14,9 @@ import java.util.List;
 
 public class ScoreboardListener implements Listener {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public ScoreboardListener(Main plugin) {
+    public ScoreboardListener(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

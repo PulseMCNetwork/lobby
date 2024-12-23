@@ -11,6 +11,8 @@ import br.com.pulsemc.minecraft.lobby.commands.lobby.SetLobbyCommand;
 import br.com.pulsemc.minecraft.lobby.configurations.Configuration;
 import br.com.pulsemc.minecraft.lobby.configurations.MessagesConfiguration;
 import br.com.pulsemc.minecraft.lobby.database.MySQLManager;
+import br.com.pulsemc.minecraft.lobby.database.redis.RedisManager;
+import br.com.pulsemc.minecraft.lobby.database.redis.RedisMessageListener;
 import br.com.pulsemc.minecraft.lobby.placeholder.PlayerPlaceholders;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguageRegistry;
 import br.com.pulsemc.minecraft.lobby.systems.language.listener.PlayerLanguageEvents;
@@ -31,13 +33,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public final class Main extends JavaPlugin {
+public final class LobbyPlugin extends JavaPlugin {
 
     // Configurations
     private Configuration configuration;
     private MessagesConfiguration messagesConfiguration;
 
     // Database
+    private RedisManager redisManager;
     private MySQLManager mySQLManager;
 
     // Systems
@@ -57,7 +60,7 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
 
         loadConfiguration();
-        setupDatabase();
+        setupDatabases();
 
         setupMessages();
         loadManagers();
@@ -78,9 +81,9 @@ public final class Main extends JavaPlugin {
         LobbyAPIProvider.shutdown();
         LobbyItemAPIProvider.shutdown();
 
-        if (mySQLManager != null) {
-            mySQLManager.disconnect();
-        }
+        if (redisManager != null) redisManager.shutdown();
+
+        if (mySQLManager != null) mySQLManager.disconnect();
     }
 
     public void debug(String message, boolean debug) {
@@ -107,15 +110,21 @@ public final class Main extends JavaPlugin {
         debug("&aConfigurações carregadas em " + stopwatch.stop() + "!", false);
     }
 
-    private void setupDatabase() {
+    private void setupDatabases() {
 
         Stopwatch stopwatch = Stopwatch.createStarted();
         debug(" ", false);
-        debug("&eConectando ao armazenamento...", false);
+        debug("&eConectando databases...", false);
+
+        this.redisManager = new RedisManager(this);
+        redisManager.initialize();
+
+        RedisMessageListener redisMessageListener = new RedisMessageListener(this);
+        redisManager.subscribe("language-updates", redisMessageListener);
 
         this.mySQLManager = new MySQLManager(this);
 
-        debug("&aArmazenamento conectado em " + stopwatch.stop() + "!", false);
+        debug("&aDatabases conectado em " + stopwatch.stop() + "!", false);
     }
 
     private void setupMessages() {

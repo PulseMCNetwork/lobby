@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.api.providers;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.tab.TabAPI;
 
 public class TabAPIProvider {
@@ -8,11 +8,11 @@ public class TabAPIProvider {
     private static TabAPIProvider instance;
     private final TabAPI tabAPI;
 
-    private TabAPIProvider(Main plugin) {
+    private TabAPIProvider(LobbyPlugin plugin) {
         this.tabAPI = plugin.getTabManager();
     }
 
-    public static void initialize(Main plugin) {
+    public static void initialize(LobbyPlugin plugin) {
         if (instance == null) {
             instance = new TabAPIProvider(plugin);
         }

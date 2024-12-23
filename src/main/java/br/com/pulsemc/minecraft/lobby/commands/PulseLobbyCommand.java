@@ -1,6 +1,6 @@
 package br.com.pulsemc.minecraft.lobby.commands;
 
-import br.com.pulsemc.minecraft.lobby.Main;
+import br.com.pulsemc.minecraft.lobby.LobbyPlugin;
 import br.com.pulsemc.minecraft.lobby.api.reload.event.PlayerReloadConfigEvent;
 import br.com.pulsemc.minecraft.lobby.systems.language.LanguagePath;
 import org.bukkit.Bukkit;
@@ -16,9 +16,9 @@ import java.util.List;
 
 public class PulseLobbyCommand implements CommandExecutor, TabCompleter {
 
-    private final Main plugin;
+    private final LobbyPlugin plugin;
 
-    public PulseLobbyCommand(Main plugin) {
+    public PulseLobbyCommand(LobbyPlugin plugin) {
         this.plugin = plugin;
     }
 

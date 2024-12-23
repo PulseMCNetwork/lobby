@@ -81,15 +81,15 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setSkullOwner(String dono) {
+    public void setSkullOwner(String dono) {
         try {
             SkullMeta im = (SkullMeta)this.is.getItemMeta();
             im.setOwner(dono);
             this.is.setItemMeta(im);
         } catch (ClassCastException ignored) {
+            ignored.printStackTrace();
         }
 
-        return this;
     }
 
     public ItemBuilder addEnchant(Enchantment ench, int level) {
@@ -133,14 +133,12 @@ public class ItemBuilder {
     public ItemBuilder removeLoreLine(String linha) {
         ItemMeta im = this.is.getItemMeta();
         List<String> lore = new ArrayList<>(im.getLore());
-        if (!lore.contains(linha)) {
-            return this;
-        } else {
+        if (lore.contains(linha)) {
             lore.remove(linha);
             im.setLore(lore);
             this.is.setItemMeta(im);
-            return this;
         }
+        return this;
     }
 
     public ItemBuilder removeLoreLine(int index) {
@@ -199,9 +197,17 @@ public class ItemBuilder {
 
     /** @deprecated */
     @Deprecated
-    public ItemBuilder setWoolColor(DyeColor cor) {
+    public void setWoolColor(DyeColor cor) {
         if (this.is.getType().equals(Material.WOOL)) {
             this.is.setDurability(cor.getData());
+        }
+    }
+
+    public ItemBuilder glow(boolean glow) {
+        if (glow) {
+            addEnchant(Enchantment.LUCK, 10);
+            addItemFlag(ItemFlag.HIDE_ENCHANTS);
+            return this;
         }
         return this;
     }
