@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,12 +33,12 @@ public class LanguageRegistry implements LanguageAPI {
     }
 
     private void createTable() {
-        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
-                "CREATE TABLE IF NOT EXISTS player_languages (" +
-                        "uuid VARCHAR(36) PRIMARY KEY, " +
-                        "language VARCHAR(10) NOT NULL" +
-                        ")"
-        )) {
+        try (Connection connection = mySQLManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "CREATE TABLE IF NOT EXISTS player_languages (" +
+                             "uuid VARCHAR(36) PRIMARY KEY, " +
+                             "language VARCHAR(10) NOT NULL)"
+             )) {
             statement.executeUpdate();
         } catch (SQLException e) {
             plugin.debug("&cErro ao criar tabela de idiomas no MySQL: " + e.getMessage(), false);
@@ -68,9 +69,10 @@ public class LanguageRegistry implements LanguageAPI {
             return playerLanguageCache.get(playerUUID);
         }
 
-        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
-                "SELECT language FROM player_languages WHERE uuid = ?"
-        )) {
+        try (Connection connection = mySQLManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT language FROM player_languages WHERE uuid = ?"
+             )) {
             statement.setString(1, playerUUID.toString());
             ResultSet resultSet = statement.executeQuery();
 
@@ -105,7 +107,7 @@ public class LanguageRegistry implements LanguageAPI {
                 syncPendingUpdates();
             }
         };
-        databaseSyncTask.runTaskTimerAsynchronously(plugin, 0L, 36000L); // A cada 5 minutos
+        databaseSyncTask.runTaskTimerAsynchronously(plugin, 0L, 36000L);
     }
 
     private void syncPendingUpdates() {
@@ -119,15 +121,22 @@ public class LanguageRegistry implements LanguageAPI {
 
         if (toUpdate.isEmpty()) return;
 
-        try (PreparedStatement statement = mySQLManager.getConnection().prepareStatement(
-                "REPLACE INTO player_languages (uuid, language) VALUES (?, ?)"
-        )) {
+        try (Connection connection = mySQLManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "REPLACE INTO player_languages (uuid, language) VALUES (?, ?)"
+             )) {
+            List<UUID> batch = new ArrayList<>();
             for (UUID uuid : toUpdate) {
                 LanguageLocale locale = playerLanguageCache.get(uuid);
                 if (locale != null) {
                     statement.setString(1, uuid.toString());
                     statement.setString(2, locale.name());
                     statement.addBatch();
+                    batch.add(uuid);
+                }
+                if (batch.size() >= 100) {
+                    statement.executeBatch();
+                    batch.clear();
                 }
             }
             statement.executeBatch();
@@ -150,6 +159,6 @@ public class LanguageRegistry implements LanguageAPI {
             databaseSyncTask.cancel();
         }
 
-        clearCache();
+        new Thread(this::clearCache).start();
     }
 }
